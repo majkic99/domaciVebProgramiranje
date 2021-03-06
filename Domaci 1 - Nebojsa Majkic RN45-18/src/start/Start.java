@@ -64,7 +64,8 @@ public class Start {
 		  (InterruptedException e1) { // TODO Auto-generated catch block
 		  e1.printStackTrace(); }
 		  
-		  //Ovo je bolji nacin (svi studenti se odjednom startuju, ali prilikom testiranja
+		  //Ovo je bolji nacin (saceka se da se svi studenti kreiraju,
+		  //svi studenti se odjednom startuju (invokeAll), ali prilikom testiranja
 		  //sam stavio milion threadova i sve je otislo u vrazju mater zakomentarisano je 
 		  //da se ne bi ponovilo!
 		 */
@@ -118,7 +119,8 @@ public class Start {
 		}
 		System.out.println("Zavrsilo odbranu njih : " + numOfTested);
 		System.out.println("Prekinuto na pola njih: " + numOfInterrupted);
-		
+		System.out.println("Kod profesora nije ni pocelo : " + studentQueueForProf.size());
+		System.out.println("Kod asistenta nije ni pocelo : " + studentQueueForAssist.size());
 		double avgPoints = (double) pointsSum / (numOfTested);
 		System.out.println("Prosecan broj poena onih koji su zavrsili odbranu : " + avgPoints);
 
