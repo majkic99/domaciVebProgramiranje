@@ -51,7 +51,22 @@ public class ServerThread extends Thread {
 				}
 
 			}
+			boolean later = false;
+			if (table.getCurrRound() > 1) {
+				CountDownLatch ctd = table.getEndRoundCountdownMap().get(table.getCurrRound());
+				try {
+					ctd.await();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				later = true;
+			}
+			
 			int round = 1;
+			if (later) {
+				round = table.getCurrRound();
+			}
 			
 			while(active) {
 				CountDownLatch latch = table.getCountdownMap().get(round);
@@ -83,6 +98,7 @@ public class ServerThread extends Thread {
 					sendResponse(response);
 				}
 				request = receiveRequest();
+				
 				//System.out.println(request);
 				switch (request.getAction()) {
 				case ENDED:
