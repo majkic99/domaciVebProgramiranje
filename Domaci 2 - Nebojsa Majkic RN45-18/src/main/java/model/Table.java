@@ -20,6 +20,7 @@ public class Table {
     private Map<Integer, CountDownLatch> countdownMap;
     private Map<Integer, CountDownLatch> guessCountdownMap;
     private Map<Integer, CountDownLatch> drawCountdownMap;
+    private Map<Integer, CountDownLatch> endRoundCountdownMap;
     
     public Table(int numberOfRounds) {
         this.players = new Player[6];
@@ -35,6 +36,8 @@ public class Table {
         guessCountdownMap.put(1, new CountDownLatch(6-1));
         drawCountdownMap = new ConcurrentHashMap<>();
         drawCountdownMap.put(1, new CountDownLatch(1));
+        endRoundCountdownMap = new ConcurrentHashMap<>();
+        endRoundCountdownMap.put(1, new CountDownLatch(6));
         
     }
     
@@ -52,8 +55,8 @@ public class Table {
     	Random r = new Random();
     	int draw = r.nextInt(5) + 1;
     	System.out.println("KRATKI STAPIC JE ONAJ SA BROJEM " + draw);
-    	
-    	
+    	System.out.println(getCurrPlayer() + "JE IZABRAO STAPIC SA BROJEM " + chosen); 
+    	System.out.println("CURRENT PLAYER - " + currPlayer + "---------------------------------------------------------") ;
     	boolean out = false;
     	if (chosen == draw) {
     		drawResultMap.put(currRound, Result.SHORT_STICK);
@@ -71,6 +74,7 @@ public class Table {
     	currRound++;
     	drawCountdownMap.put(currRound, new CountDownLatch(1));
     	countdownMap.put(currRound, new CountDownLatch(numberOfPlayersAtTable));
+    	endRoundCountdownMap.put(currRound, new CountDownLatch(numberOfPlayersAtTable));
     	guessCountdownMap.put(currRound, new CountDownLatch(numberOfPlayersAtTable-1));
     	return out;
     	
@@ -116,7 +120,9 @@ public class Table {
 				break;
 			}
 		}
+		System.out.println(player + " je izbacen ===================================================");
 		countdownMap.put(currRound, new CountDownLatch(numberOfPlayersAtTable));
+		endRoundCountdownMap.put(currRound, new CountDownLatch(numberOfPlayersAtTable));
 		guessCountdownMap.put(currRound, new CountDownLatch(numberOfPlayersAtTable-1));
 		//System.out.println(Arrays.asList(players));
 		
@@ -126,11 +132,25 @@ public class Table {
 		if (from == 5) {
 			return;
 		}
-		for (int i = from; i < numberOfPlayersAtTable; i++) {
-			if (players[i] == null) {
+		//System.out.println(from + "sada");
+		int i = 0;
+		for (i = from; i < numberOfPlayersAtTable; i++) {
 				players[i] = players[i+1];
-			}
 		}
+		players[i] = null;
+		/*
+		synchronized(System.out) {
+			System.out.println("-------");
+			System.out.println(players[0]!=null ? players[0] : "NISTA");
+			System.out.println(players[1]!=null ? players[1] : "NISTA");
+			System.out.println(players[2]!=null ? players[2] : "NISTA");
+			System.out.println(players[3]!=null ? players[3] : "NISTA");
+			System.out.println(players[4]!=null ? players[4] : "NISTA");
+			System.out.println(players[5]!=null ? players[5] : "NISTA");
+			System.out.println("-------");
+		}
+		*/
+		
 	}
 
 	
@@ -201,6 +221,10 @@ public class Table {
 
 	public Map<Integer, CountDownLatch> getDrawCountdownMap() {
 		return drawCountdownMap;
+	}
+
+	public Map<Integer, CountDownLatch> getEndRoundCountdownMap() {
+		return endRoundCountdownMap;
 	}
 	
 

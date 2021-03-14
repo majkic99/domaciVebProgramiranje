@@ -62,19 +62,19 @@ public class ClientThread implements Runnable {
 				request.setAction(Action.DRAWN);
 				request.setChosen(draw);
 				sendRequest(request);
-				System.out.println(id.toString() + " je izabrao " + draw + ". stapic.");
+				//System.out.println(id.toString() + " je izabrao " + draw + ". stapic.");
 				break;
 			case GUESS: 
 				request.setAction(r.nextFloat() > 0.5 ? Action.GUESS_LONG : Action.GUESS_SHORT);
 				sendRequest(request);
-				System.out.println(id.toString() + " pogadja da je " + request.getAction());
+				//System.out.println(id.toString() + " pogadja da je " + request.getAction());
 				break;
 				
 			case ENDED:
 				active = false;
 				request.setAction(Action.ENDED);
 				sendRequest(request);
-				System.out.println("Igrac " + id.toString() + " je zavrsio sa igrom.");
+				//System.out.println("Igrac " + id.toString() + " je zavrsio sa igrom.");
 				break;
 				
 			default:

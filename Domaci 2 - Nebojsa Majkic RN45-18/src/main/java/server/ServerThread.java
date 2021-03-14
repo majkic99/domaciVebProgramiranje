@@ -54,9 +54,10 @@ public class ServerThread extends Thread {
 			int round = 1;
 			
 			while(active) {
-				CountDownLatch latch = table.getCountdownMap().get(round++);
+				CountDownLatch latch = table.getCountdownMap().get(round);
 				latch.countDown();
 				try {
+					//System.out.println("prvi" + latch.getCount());
 					latch.await();
 				} catch (InterruptedException e1) {
 					// TODO Auto-generated catch block
@@ -82,7 +83,7 @@ public class ServerThread extends Thread {
 					sendResponse(response);
 				}
 				request = receiveRequest();
-				System.out.println(request);
+				//System.out.println(request);
 				switch (request.getAction()) {
 				case ENDED:
 					active = false;
@@ -91,7 +92,8 @@ public class ServerThread extends Thread {
 				case DRAWN:
 					
 					try {
-						table.getCountdownMap().get(round-1).await();
+						latch = table.getGuessCountdownMap().get(round);
+						latch.await();
 					} catch (InterruptedException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -101,19 +103,23 @@ public class ServerThread extends Thread {
 						table.removePlayer(player);
 						response.setResult(Result.ENDED);
 						sendResponse(response);
-						System.out.println("Player " + player.getId() + " je izvukao kratak stapic i ispada"); 
+						//System.out.println("Player " + player.getId() + " je izvukao kratak stapic i ispada"); 
 						active = false;
 					}else {
-						System.out.println("Player " + player.getId() + " je izvukao dugacak stapic i nastavlja sledeci igrac"); 
+						//System.out.println("Player " + player.getId() + " je izvukao dugacak stapic i nastavlja sledeci igrac"); 
 					}
 					break;
 				case GUESS_LONG:
-					
+
+					System.out.println(player + " je glasao za LONG");
 					try {
-						table.getCountdownMap().get(round-1).countDown();
-						table.getCountdownMap().get(round-1).await();
+						latch = table.getGuessCountdownMap().get(round);
+						latch.countDown();
+						//System.out.println("e"+round +" "+ latch.getCount() + " " + player);
+						latch.await();
 						
-						table.getDrawCountdownMap().get(round-1).await();
+						latch = table.getDrawCountdownMap().get(round);
+						latch.await();
 					} catch (InterruptedException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -127,11 +133,17 @@ public class ServerThread extends Thread {
 					break;
 				case GUESS_SHORT:
 					try {
-						table.getCountdownMap().get(round-1).countDown();
-						table.getCountdownMap().get(round-1).await();
-						table.getDrawCountdownMap().get(round-1).await();
+						System.out.println(player + " je glasao za SHORT");
+						latch = table.getGuessCountdownMap().get(round);
+						latch.countDown();
+						//System.out.println("e"+round +" "+ latch.getCount() + " " + player);
+						latch.await();
+						
+						latch = table.getDrawCountdownMap().get(round);
+						latch.await();
 					} catch (InterruptedException e1) {
 						// TODO Auto-generated catch block
+						
 						e1.printStackTrace();
 					}
 					
@@ -139,10 +151,23 @@ public class ServerThread extends Thread {
 						table.getResult().put(player, table.getResult().get(player) + 1);
 					}
 					break;
+				default:
+					System.out.println(request.getAction());
+					break;
 				}
 			
+				latch = table.getEndRoundCountdownMap().get(round);
+				latch.countDown();
+				try {
+
+					//System.out.println("zadnji" + latch.getCount());
+					latch.await();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
-				
+				round++;			
 			}
 			
 			

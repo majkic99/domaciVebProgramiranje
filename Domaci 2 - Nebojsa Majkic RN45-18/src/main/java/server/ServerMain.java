@@ -11,7 +11,7 @@ import java.util.concurrent.Executors;
 public class ServerMain {
 
     private static final int PORT = 9999;
-    private static int numberOfRounds = 10;
+    private static int numberOfRounds = 20;
 
     public static void main(String[] args) {
     	
