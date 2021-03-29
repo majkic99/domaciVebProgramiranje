@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 public class ClientMain {
 	
-	public static final int numberOfPlayers = 105;
+	public static final int numberOfPlayers = 100;
 	
     public static void main(String[] args) throws IOException {
         ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(numberOfPlayers);
