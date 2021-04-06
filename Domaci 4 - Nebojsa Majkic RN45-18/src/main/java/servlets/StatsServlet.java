@@ -33,6 +33,7 @@ public class StatsServlet extends HttpServlet {
     
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
     	response.setContentType("text/html");
         PrintWriter out = response.getWriter();
         try {
@@ -44,6 +45,11 @@ public class StatsServlet extends HttpServlet {
         	out.println("<h1>" +"Pogresna sifra" + "</h1>");
             return;
         }
+        
+        out.println("<html><body><form method=\"POST\" action = \"stats?password="+password+"\">");
+        out.println("<br><input type=\"submit\" name\"submit\" value\"Izbrisi\"/></form>");
+        out.println("</body></html>");
+        
         List<String> listDays = new ArrayList<>();
         listDays.add("Monday");
         listDays.add("Tuesday");
@@ -58,6 +64,47 @@ public class StatsServlet extends HttpServlet {
             }
         }
     	
+    	
+    }
+    
+    @Override
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    	response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+    	try {
+        	if (!(request.getParameter("password").equals(password))){
+        		out.println("<h1>" +"Pogresna sifra" + "</h1>" + request.getParameter("password"));
+                return;
+        	}
+        }catch(Exception e) {
+        	out.println("<h1>" +"Pogresna sifra" + "</h1>");
+            return;
+        }
+    	reset();
+    	System.out.println("here");
+    	response.sendRedirect("/Domaci4-NebojsaMajkicRN45-18/stats?password="+password);
+    }
+    
+    private void reset() {
+    	List<String> listDays = new ArrayList<>();
+        listDays.add("Monday");
+        listDays.add("Tuesday");
+        listDays.add("Wednesday");
+        listDays.add("Thursday");
+        listDays.add("Friday");
+        
+        for(String day : listDays) {
+            for (String meal : database.get(day).keySet()) {
+            	database.get(day).put(meal, 0);
+            }
+        }
+    	
+    	
+    	Map<String, String> map = (Map<String, String>) getServletContext().getAttribute("map");
+    	for (String id : map.keySet()) {
+    		getServletContext().removeAttribute(id);
+    	}
+    	map.clear();
     	
     }
 }

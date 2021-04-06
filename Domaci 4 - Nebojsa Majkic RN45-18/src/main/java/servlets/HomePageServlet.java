@@ -12,6 +12,9 @@ public class HomePageServlet extends HttpServlet {
     private Map<String, Map<String, Integer>> database;
     public void init(){
         database = Database.getDatabaseInstance();
+
+        Map<String, String> map = new HashMap<>();
+        getServletContext().setAttribute("map", map);
     }
 
     @Override
@@ -42,7 +45,6 @@ public class HomePageServlet extends HttpServlet {
         }
         out.println("<br><input type=\"submit\" name\"submit\" value\"Zapamti\"/></form>");
         out.println("</body></html>");
-        getServletContext().setAttribute("SvaJela", database);
         
     }
     @Override
@@ -54,9 +56,14 @@ public class HomePageServlet extends HttpServlet {
         listDays.add("Thursday");
         listDays.add("Friday");
         
+        Map<String, String> map = (Map<String, String>) getServletContext().getAttribute("map");
+        
     	getServletContext().setAttribute(request.getSession().getId(),true);
+    	
     	for (String day : listDays) {
+    		System.out.println(database);
     		database.get(day).put(request.getParameter(day), database.get(day).get(request.getParameter(day)) + 1);
+    		map.put(request.getSession().getId(), "active");
     	}
     	response.sendRedirect("/Domaci4-NebojsaMajkicRN45-18/");
     }
