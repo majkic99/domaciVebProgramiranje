@@ -201,7 +201,7 @@ public class MySQLNewsRepository extends MySqlAbstractRepository implements INew
 				}
 
 				vestiList.add(news);
-				
+
 			}
 
 		} catch (Exception e) {
@@ -405,7 +405,7 @@ public class MySQLNewsRepository extends MySqlAbstractRepository implements INew
 				}
 
 				vestiList.add(news);
-				
+
 				statement.executeQuery("update news as n set n.visits = n.visits + 1 where n.id = " + news.getId());
 			}
 
@@ -776,4 +776,103 @@ public class MySQLNewsRepository extends MySqlAbstractRepository implements INew
 		return count;
 	}
 
+	@Override
+	public List<News> advancedNewsSearch(String result, Integer page, Integer perPage) {
+		List<News> vestiList = new ArrayList<News>();
+
+		Connection connection = null;
+		Statement statement = null;
+
+		ResultSet resultSet = null;
+		ResultSet resultSetUser = null;
+		ResultSet resultSetCategory = null;
+
+		PreparedStatement preparedStatement = null;
+		int i = 0;
+
+		try {
+			connection = this.newConnection();
+
+			statement = connection.createStatement();
+			resultSet = statement
+					.executeQuery("select * from news WHERE title LIKE '%" + result + "%' or text LIKE '%" + result
+							+ "%' limit " + (page - 1) * perPage + " , " + perPage + ";");
+
+			while (resultSet.next()) {
+				News news = new News();
+				news.setId(resultSet.getInt("id"));
+				news.setTitle(resultSet.getString("title"));
+				news.setText(resultSet.getString("text"));
+				news.setVisitNumber(resultSet.getInt("visits"));
+				news.setCreationTime(resultSet.getDate("date"));
+
+				preparedStatement = connection.prepareStatement("select * from users where email = ?");
+				preparedStatement.setString(1, resultSet.getString("author"));
+				ResultSet resultSetAuthor = preparedStatement.executeQuery();
+				resultSetAuthor.next();
+				User user = new User();
+				user.setId(resultSetAuthor.getInt("id"));
+				user.setEmail(resultSetAuthor.getString("email"));
+				user.setName(resultSetAuthor.getString("name"));
+				user.setSurname(resultSetAuthor.getString("surname"));
+				Role role = resultSetAuthor.getInt("type") == 0 ? Role.ADMIN : Role.CONTENTWRITER;
+				user.setRole(role);
+				Status status = resultSetAuthor.getInt("status") == 0 ? Status.INACTIVE : Status.ACTIVE;
+				user.setStatus(status);
+
+				preparedStatement = connection.prepareStatement("select * from categories where id = ?");
+				preparedStatement.setInt(1, resultSet.getInt("category_id"));
+				resultSetCategory = preparedStatement.executeQuery();
+
+				while (resultSetCategory.next()) {
+					Category category = new Category();
+					category.setName(resultSetCategory.getString("name"));
+					category.setDescription(resultSetCategory.getString("description"));
+					category.setId(resultSet.getInt("category_id"));
+					synchronized (this) {
+						news.setCategory(category);
+					}
+				}
+				preparedStatement = connection.prepareStatement("select * from news_keywords where news_id = ?");
+				preparedStatement.setInt(1, news.getId());
+				ResultSet resultSetKeywords = preparedStatement.executeQuery();
+				news.setKeywords(new ArrayList<Keyword>());
+				while (resultSetKeywords.next()) {
+					Keyword keyword = new Keyword();
+					keyword.setId(resultSetKeywords.getInt("keyword_id"));
+					news.getKeywords().add(keyword);
+					preparedStatement = connection.prepareStatement("select * from keywords where id = ?");
+					preparedStatement.setInt(1, keyword.getId());
+					ResultSet resultSetOneKeyword = preparedStatement.executeQuery();
+					resultSetOneKeyword.next();
+					keyword.setName(resultSetOneKeyword.getString("word"));
+				}
+				preparedStatement = connection.prepareStatement("select * from comments where news_id = ?");
+				preparedStatement.setInt(1, news.getId());
+				ResultSet resultSetComments = preparedStatement.executeQuery();
+				news.setComments(new ArrayList<Comment>());
+				while (resultSetComments.next()) {
+					Comment comment = new Comment();
+					comment.setId(resultSetComments.getInt("id"));
+					comment.setNewsId(news.getId());
+					comment.setCreator(resultSetComments.getString("author"));
+					comment.setText(resultSetComments.getString("text"));
+					comment.setCreationDate(resultSetComments.getDate("date"));
+					news.getComments().add(comment);
+				}
+
+				vestiList.add(news);
+
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			this.closeStatement(statement);
+			this.closeResultSet(resultSet);
+			this.closeConnection(connection);
+		}
+
+		return vestiList;
+	}
 }

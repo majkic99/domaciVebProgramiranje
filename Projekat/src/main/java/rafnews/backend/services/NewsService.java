@@ -70,5 +70,9 @@ public class NewsService {
 		return this.newsRepository.karma(id);
 	}
 
+	public List<News> advancedNewsSearch(String result, Integer page, Integer perPage) {
+		return this.newsRepository.advancedNewsSearch(result, page, perPage);
+	}
+
 
 }

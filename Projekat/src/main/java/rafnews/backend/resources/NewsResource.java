@@ -5,6 +5,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -13,6 +14,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import rafnews.backend.model.Comment;
 import rafnews.backend.model.Keyword;
@@ -31,6 +35,19 @@ public class NewsResource {
 	public List<News> all(@PathParam("page") Integer page, @PathParam("perPage") Integer perPage) {
 		return this.newsService.allNews(page, perPage);
 	}
+	
+	@POST
+	@Path("advanced/{perPage}/{page}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<News> advancedSearch(String json, @PathParam("page") Integer page, @PathParam("perPage") Integer perPage) {
+		Gson gson = new Gson();
+	    Object gsonContent = gson.fromJson( json, JsonObject.class );
+	    String result = ((JsonObject) gsonContent).get("text").toString();
+	    result = result.substring(1, result.length()-1);
+	    
+	   return this.newsService.advancedNewsSearch(result, page, perPage);
+    }
 
 	@GET
 	@Path("/visits/{perPage}/{page}")

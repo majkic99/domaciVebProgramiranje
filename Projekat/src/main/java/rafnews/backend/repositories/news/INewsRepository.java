@@ -21,4 +21,5 @@ public interface INewsRepository {
 	public void likeNews(Integer id, String id2);
 	public Integer reactions(Integer id);
 	public Integer karma(Integer id);
+	public List<News> advancedNewsSearch(String result, Integer page, Integer perPage);
 }
