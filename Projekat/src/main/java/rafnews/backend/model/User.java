@@ -1,4 +1,4 @@
-package model;
+package rafnews.backend.model;
 
 public class User {
 
@@ -23,6 +23,7 @@ public class User {
 		this.status = status;
 		this.password = password;
 	}
+
 
 	public Integer getId() {
 		return id;

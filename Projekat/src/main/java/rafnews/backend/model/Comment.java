@@ -1,4 +1,4 @@
-package model;
+package rafnews.backend.model;
 
 import java.util.Date;
 
@@ -7,20 +7,20 @@ public class Comment {
 	private String creator;
 	private String text;
 	private Date creationDate;
-	private News news;
+	private Integer newsId;
 	
 	
 	
 	public Comment() {
 		super();
 	}
-	public Comment(Integer id, String creator, String text, Date creationDate, News news) {
+	public Comment(Integer id, String creator, String text, Date creationDate, Integer newsId) {
 		super();
 		this.id = id;
 		this.creator = creator;
 		this.text = text;
 		this.creationDate = creationDate;
-		this.news = news;
+		this.newsId = newsId;
 	}
 	public Integer getId() {
 		return id;
@@ -46,12 +46,14 @@ public class Comment {
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
 	}
-	public News getNews() {
-		return news;
+	public Integer getNewsId() {
+		return newsId;
 	}
-	public void setNews(News news) {
-		this.news = news;
+	public void setNewsId(Integer newsId) {
+		this.newsId = newsId;
 	}
+	
+	
 	
 	
 }

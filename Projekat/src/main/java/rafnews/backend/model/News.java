@@ -1,4 +1,4 @@
-package model;
+package rafnews.backend.model;
 
 import java.util.Date;
 import java.util.List;
@@ -62,6 +62,7 @@ public class News {
 	public void setVisitNumber(Integer visitNumber) {
 		this.visitNumber = visitNumber;
 	}
+	
 	public User getCreator() {
 		return creator;
 	}

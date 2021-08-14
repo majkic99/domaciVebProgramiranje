@@ -1,12 +1,12 @@
-package repositories.user;
+package rafnews.backend.repositories.user;
 
 import java.util.List;
 
-import model.User;
+import rafnews.backend.model.User;
 
 public interface IUserRepository {
 	 public User findUser(String email);
-	 public List<User> allUser();
+	 public List<User> allUser(int page, int perPage);
 	 public User addUser(User user);
 	 public Integer userActivity(String email);
 	 public User updateUser(User user, String email);

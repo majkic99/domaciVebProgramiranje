@@ -1,4 +1,4 @@
-package model;
+package rafnews.backend.model;
 
 public class Keyword {
 	private Integer id;

@@ -1,4 +1,4 @@
-package model;
+package rafnews.backend.model;
 
 public class Category {
 	private Integer id;
