@@ -22,4 +22,5 @@ public interface INewsRepository {
 	public Integer reactions(Integer id);
 	public Integer karma(Integer id);
 	public List<News> advancedNewsSearch(String result, Integer page, Integer perPage);
+	public List<News> allNewsByReactionAmount(Integer page, Integer perPage);
 }

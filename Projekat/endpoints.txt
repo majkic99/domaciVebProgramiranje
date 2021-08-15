@@ -80,6 +80,10 @@ DELETE
 GET
 (orders by creation date desc)
 -----------------------------------------
+/Backend/api/news/reactionAmountDesc/{perPage}/{page}
+GET
+(orders by amount of likes+dislikes desc)
+-----------------------------------------
 /Backend/api/news/advanced/{perPage}/{page}
 POST
 {

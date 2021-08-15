@@ -35,6 +35,12 @@ public class NewsResource {
 	public List<News> all(@PathParam("page") Integer page, @PathParam("perPage") Integer perPage) {
 		return this.newsService.allNews(page, perPage);
 	}
+	@GET
+	@Path("/reactionAmountDesc/{perPage}/{page}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<News> allNewsByReactionAmount(@PathParam("page") Integer page, @PathParam("perPage") Integer perPage) {
+		return this.newsService.allNewsByReactionAmount(page, perPage);
+	}
 	
 	@POST
 	@Path("advanced/{perPage}/{page}")
@@ -140,7 +146,5 @@ public class NewsResource {
 	public Integer reactions(@PathParam("id") Integer id) {
 		return this.newsService.reactions(id);
 	}
-	
-	
-	
+
 }

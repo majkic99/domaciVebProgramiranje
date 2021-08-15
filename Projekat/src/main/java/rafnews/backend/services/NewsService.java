@@ -74,5 +74,10 @@ public class NewsService {
 		return this.newsRepository.advancedNewsSearch(result, page, perPage);
 	}
 
+	public List<News> allNewsByReactionAmount(Integer page, Integer perPage) {
+
+		return this.newsRepository.allNewsByReactionAmount(page, perPage);
+	}
+
 
 }
