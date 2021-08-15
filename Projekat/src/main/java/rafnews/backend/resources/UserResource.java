@@ -20,12 +20,6 @@ public class UserResource {
 	@Inject
 	private UserService userService;
 	
-	@GET
-    @Path("/ping")
-    public Response ping() {
-        return Response.ok().entity("Service online").build();
-    }
-	
 	@POST
 	@Path("/login")
 	@Produces({ MediaType.APPLICATION_JSON })

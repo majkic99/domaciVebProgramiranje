@@ -135,7 +135,7 @@ public class MySQLNewsRepository extends MySqlAbstractRepository implements INew
 
 			statement = connection.createStatement();
 			resultSet = statement.executeQuery(
-					"select * from news order by date desc limit" + (page - 1) * perPage + " , " + perPage + ";");
+					"select * from news order by date desc limit " + (page - 1) * perPage + " , " + perPage + ";");
 
 			while (resultSet.next()) {
 				News news = new News();
@@ -233,7 +233,7 @@ public class MySQLNewsRepository extends MySqlAbstractRepository implements INew
 
 			statement = connection.createStatement();
 			resultSet = statement.executeQuery(
-					"select * from news order by visits desc limit" + (page - 1) * perPage + " , " + perPage + ";");
+					"select * from news order by visits desc limit " + (page - 1) * perPage + " , " + perPage + ";");
 
 			while (resultSet.next()) {
 				News news = new News();
@@ -381,15 +381,6 @@ public class MySQLNewsRepository extends MySqlAbstractRepository implements INew
 					resultSetOneKeyword.next();
 					keyword.setName(resultSetOneKeyword.getString("word"));
 				}
-				boolean hasKwId = false;
-				for (Keyword kw : news.getKeywords()) {
-					if (kw.getId() == id) {
-						hasKwId = true;
-					}
-				}
-				if (!hasKwId) {
-					continue;
-				}
 				preparedStatement = connection.prepareStatement("select * from comments where news_id = ?");
 				preparedStatement.setInt(1, news.getId());
 				ResultSet resultSetComments = preparedStatement.executeQuery();
@@ -416,7 +407,7 @@ public class MySQLNewsRepository extends MySqlAbstractRepository implements INew
 			this.closeResultSet(resultSet);
 			this.closeConnection(connection);
 		}
-
+		
 		return vestiList.get(0);
 	}
 
@@ -458,7 +449,7 @@ public class MySQLNewsRepository extends MySqlAbstractRepository implements INew
 
 			statement = connection.createStatement();
 			resultSet = statement.executeQuery(
-					"select * from news order by date desc limit" + (page - 1) * perPage + " , " + perPage + ";");
+					"select * from news order by date desc limit " + (page - 1) * perPage + " , " + perPage + ";");
 
 			while (resultSet.next()) {
 				News news = new News();
@@ -558,7 +549,7 @@ public class MySQLNewsRepository extends MySqlAbstractRepository implements INew
 
 			statement = connection.createStatement();
 			resultSet = statement.executeQuery(
-					"select * from news order by date desc limit" + (page - 1) * perPage + " , " + perPage + ";");
+					"select * from news order by date desc limit " + (page - 1) * perPage + " , " + perPage + ";");
 
 			while (resultSet.next()) {
 				News news = new News();

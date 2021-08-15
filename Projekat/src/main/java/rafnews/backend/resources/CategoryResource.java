@@ -50,7 +50,7 @@ public class CategoryResource {
     }
 
     @POST
-     @Path("/{name}")
+    @Path("/{name}")
     @Produces(MediaType.APPLICATION_JSON)
     public Category update(@Valid Category category, @PathParam("name") String name)
     {

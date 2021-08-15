@@ -149,7 +149,7 @@ public class MySQLCategoryRepository extends MySqlAbstractRepository implements 
                 resultSet = preparedStatement.executeQuery();
             }
             if(resultSet == null || !resultSet.next() || name.equals(category.getName())) {
-                preparedStatement = connection.prepareStatement("update kategorija as k set k.name = ?, k.description = ? where k.name = ?");
+                preparedStatement = connection.prepareStatement("update categories as k set k.name = ?, k.description = ? where k.name = ?");
                 preparedStatement.setString(1, category.getName());
                 preparedStatement.setString(2, category.getDescription());
                 preparedStatement.setString(3, name);

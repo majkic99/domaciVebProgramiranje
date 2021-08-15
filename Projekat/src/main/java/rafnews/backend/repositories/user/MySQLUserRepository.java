@@ -1,4 +1,4 @@
-package rafnews.backend.repositories.user;
+ package rafnews.backend.repositories.user;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

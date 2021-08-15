@@ -1,0 +1,145 @@
+/Backend/api/users/login
+POST
+{
+	"email" : "admin@gmail.com",
+	"password" : "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918"
+}
+(vraca JWT)
+--------------------------------------
+/Backend/api/users/{perPage}/{page}
+GET
+--------------------------------------
+/Backend/api/users/{email}
+GET
+--------------------------------------
+/Backend/api/users/status/{email}
+GET
+1 if active, 0 if inactive
+--------------------------------------
+/Backend/api/users
+POST
+{
+	"email" : "test1223@gmail.com",
+	"name" : "Pera",
+	"surname" : "Peric",
+	"role" : 1,
+	"status" : 0,
+	"password" : "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918"
+}
+---------------------------------------
+/Backend/api/users/{email}
+POST
+{
+	"email" : "test1223@gmail.com",
+	"name" : "Pera",
+	"surname" : "Peric",
+	"role" : 1,
+	"status" : 0,
+	"password" : "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918"
+}
+----------------------------------------------------------------------------------------------
+/Backend/api/category/{perPage}/{page}
+GET
+-----------------------------------------
+/Backend/api/category/
+POST
+{
+	"name" : "testtest",
+	"description" : "teasedsadweatgsafdasdfasrfwqfad"
+}
+------------------------------------------
+/Backend/api/category/{name}
+GET
+------------------------------------------
+/Backend/api/category/{name}
+POST
+{
+	"name" : "testtest",
+	"description" : "teasedsadweatgsafdasdfasrfwqfad"
+}
+----------------------------------------------------------------------------------------------
+/Backend/api/keywords/{perPage}/{page}
+GET
+-----------------------------------------
+/Backend/api/keywords
+POST
+{
+	"name" : "testtest2232"
+}
+-----------------------------------------
+/Backend/api/keywords/{name}
+GET
+-----------------------------------------
+/Backend/api/keywords/by/{id}
+GET
+-----------------------------------------
+/Backend/api/keywords/{id}
+DELETE
+----------------------------------------------------------------------------------------------
+/Backend/api/news/{perPage}/{page}
+GET
+(orders by creation date desc)
+-----------------------------------------
+/Backend/api/news/advanced/{perPage}/{page}
+POST
+{
+	"text" : "novak"
+}
+------------------------------------------
+/Backend/api/news/visits/3/1
+GET
+(orders by visits desc)
+------------------------------------------
+Backend/api/news/
+POST
+------------------------------------------
+Backend/api/news/update
+POST
+------------------------------------------
+Backend/api/news/{id}
+GET
+------------------------------------------
+Backend/api/news/{id}
+GET
+------------------------------------------
+/Backend/api/news/category/{name}/{perPage}/{page}
+GET
+------------------------------------------
+/Backend/api/news/tag/{id}/{perPage}/{page}
+GET
+------------------------------------------
+Backend/api/news/like/{id}
+GET
+------------------------------------------
+Backend/api/news/dislike/{id}
+GET
+------------------------------------------
+Backend/api/news/karma/{id}
+GET
+------------------------------------------
+Backend/api/news/reactions/{id}
+GET
+------------------------------------------
+Backend/api/comments/like/{id}
+GET
+------------------------------------------
+Backend/api/comments/dislike/{id}
+GET
+------------------------------------------
+Backend/api/comments/karma/{id}
+GET
+------------------------------------------
+Backend/api/comments/reactions/{id}
+GET
+----------------------------------------
+Backend/api/comments/{id}
+GET
+----------------------------------------
+Backend/api/comments/{id}
+DELETE
+-----------------------------------------
+Backend/api/comments/
+POST
+----------------------------------------
+Backend/api/comments/{perPage}/{page}
+GET

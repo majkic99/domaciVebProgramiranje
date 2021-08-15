@@ -84,7 +84,7 @@ public class NewsResource {
 	}
 
 	@GET
-	@Path("/kategorija/{name}/{perPage}/{page}")
+	@Path("/category/{name}/{perPage}/{page}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<News> allByCategory(@PathParam("name") String name, @PathParam("page") Integer page,
 			@PathParam("perPage") Integer perPage) {
@@ -100,7 +100,7 @@ public class NewsResource {
 	}
 
 	@GET
-	@Path("/newsTag/{id}")
+	@Path("/keyword/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Keyword> allTagByNews(@PathParam("id") Integer id) {
 		return this.newsService.allTagByNews(id);

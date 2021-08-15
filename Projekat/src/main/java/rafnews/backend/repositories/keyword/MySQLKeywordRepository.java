@@ -17,7 +17,8 @@ public class MySQLKeywordRepository extends MySqlAbstractRepository implements I
 		Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-        if (findKeyword(keyword.getName()) == null){
+        if (findKeyword(keyword.getName()) != null){
+        	System.out.println(findKeyword(keyword.getName()));
         	return keyword;
         }
         try {
@@ -25,7 +26,7 @@ public class MySQLKeywordRepository extends MySqlAbstractRepository implements I
 
             String[] generatedColumns = {"id"};
 
-            preparedStatement = connection.prepareStatement("INSERT INTO keywords (word) VALUES(?)", generatedColumns);
+            preparedStatement = connection.prepareStatement("INSERT INTO keywords (word) VALUES (?)", generatedColumns);
             preparedStatement.setString(1, keyword.getName());
             preparedStatement.executeUpdate();
             resultSet = preparedStatement.getGeneratedKeys();
@@ -55,7 +56,7 @@ public class MySQLKeywordRepository extends MySqlAbstractRepository implements I
             connection = this.newConnection();
 
             statement = connection.createStatement();
-            resultSet = statement.executeQuery("select * from keywords limit" + (page-1)*perPage + " , " + perPage +  ";");
+            resultSet = statement.executeQuery("select * from keywords limit " + (page-1)*perPage + " , " + perPage +  ";");
             while (resultSet.next()) {
 
             	Keyword kw = new Keyword(resultSet.getInt("id"), resultSet.getString("word"));
